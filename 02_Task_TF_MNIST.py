@@ -155,7 +155,7 @@ def build_svhn_transfer_model(mnist_model, device):
         if any(name.startswith(p) for p in skip_prefixes):
             continue
         if name in svhn_sd and svhn_sd[name].shape == param.shape:
-            svhn_sd[name] = param
+            svhn_sd[name] = param # overwrite random weights with trained ones
 
     svhn_model.load_state_dict(svhn_sd)
 
@@ -166,6 +166,7 @@ def build_svhn_transfer_model(mnist_model, device):
         else:
             param.requires_grad = False
 
+    # We train the first block and the classifier
     return svhn_model
 
 
